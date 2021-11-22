@@ -64,9 +64,7 @@ function checkLetter(clickedButton) {
         if (clickedButton === letters[i].textContent) {
             letters[i].className = 'letter show';
             matchingLetters = clickedButton;
-        } else {
-            return matchingLetters;
-        }
+        } 
     }
 } 
 
@@ -77,11 +75,9 @@ qwerty.addEventListener('click', (event) => {
     
     if (event.target.tagName === 'BUTTON' && event.target.className !== 'chosen') {
         event.target.className = 'chosen';
-        checkLetter(event.target.textContent);
+        checkLetter(clickedButton);
     } else {
         missed++;
     }
-
-
 });
 
