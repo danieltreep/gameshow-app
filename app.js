@@ -46,7 +46,7 @@ function addPhraseToDisplay(array) {
         ul.appendChild(newListItem);
 
         // Apply a different class to space or letter
-        if (randomPhrase[i].textContent === ' ') {
+        if (randomPhrase[i].includes(' ')) {
             newListItem.className = "space";
         } else {
             newListItem.className = "letter";
@@ -58,26 +58,41 @@ addPhraseToDisplay(phrases);
 // Check if a letter is in the phrase
 function checkLetter(clickedButton) {
     const letters = document.getElementsByClassName('letter');
-    let matchingLetters = null;
+    
+    let matchingLetter = null;
 
     for (i = 0; i < letters.length; i++) {
         if (clickedButton === letters[i].textContent) {
             letters[i].className = 'letter show';
-            matchingLetters = clickedButton;
+            matchingLetter = clickedButton;
         } 
     }
+    return matchingLetter;
 } 
 
 // Add event listener to buttons
 qwerty.addEventListener('click', (event) => {
     // Reads text content of clicked button
     const clickedButton = event.target.textContent; 
+    const lifes = document.getElementsByClassName('tries');
     
+    // If the target is a button and does not have chosen as class, run function
     if (event.target.tagName === 'BUTTON' && event.target.className !== 'chosen') {
         event.target.className = 'chosen';
-        checkLetter(clickedButton);
-    } else {
-        missed++;
+        const letterChecker = checkLetter(clickedButton);
+        let letterFound = 0;
+        
+        // If function returns null, remove heart and increment missed
+        if (letterChecker === null) {
+            missed++;
+            lifes[0].remove();
+        } else {
+            letterFound++;
+        }
+        
+            
+   
+        
     }
 });
 
