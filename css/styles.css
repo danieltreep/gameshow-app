@@ -98,6 +98,12 @@ button {
   background-color: #76CE82;
 }
 
+.tries {
+  margin: 5px;
+}
+.lost {
+  margin: 5px; 
+}
 /* Keyboard */
 
 .keyrow {

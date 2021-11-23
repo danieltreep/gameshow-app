@@ -1,23 +1,31 @@
 // Variables I'll need
 const qwerty = document.getElementById('qwerty');
 const phrase = document.getElementById('phrase');
+const lifes = document.getElementsByClassName('tries');
+const lostLifes = document.getElementsByClassName('lost');
 let missed = 0;
+let resetGame = 0;
 
 // Hide overlay when clicked
 const start = document.querySelector('.btn_reset');
 const overlay = document.getElementById('overlay');
+const title = document.querySelector('.title');
 
 start.addEventListener('click', () => {
-    overlay.style.display = 'none';
+    if (resetGame === 1) {
+        reset();
+    } else {
+        overlay.style.display = 'none';
+    }
 });
 
 // Array of phrases 
 const phrases = [
     'trees have feelings too',
-    'you are not worthy of excalibur',
+    'nobody is worthy of excalibur',
     'christmas is peak capitalism',
     'power is an illusion',
-    'mangos are the key to world domination',
+    'mangos are great friends',
     'memories can be altered'
 ]
 
@@ -58,7 +66,6 @@ addPhraseToDisplay(phrases);
 // Check if a letter is in the phrase
 function checkLetter(clickedButton) {
     const letters = document.getElementsByClassName('letter');
-    
     let matchingLetter = null;
 
     for (i = 0; i < letters.length; i++) {
@@ -74,25 +81,77 @@ function checkLetter(clickedButton) {
 qwerty.addEventListener('click', (event) => {
     // Reads text content of clicked button
     const clickedButton = event.target.textContent; 
-    const lifes = document.getElementsByClassName('tries');
     
     // If the target is a button and does not have chosen as class, run function
     if (event.target.tagName === 'BUTTON' && event.target.className !== 'chosen') {
         event.target.className = 'chosen';
         const letterChecker = checkLetter(clickedButton);
-        let letterFound = 0;
-        
+
         // If function returns null, remove heart and increment missed
         if (letterChecker === null) {
             missed++;
-            lifes[0].remove();
-        } else {
-            letterFound++;
-        }
-        
-            
-   
-        
+            lifes[0].firstElementChild.setAttribute('src', 'images/lostHeart.png');
+            lifes[0].className = 'lost';
+            lost();
+        } else { 
+            won();
+        }  
     }
 });
 
+// Shows winning screen and gives value for a reset
+function won() {
+    let phraseLetters = document.getElementsByClassName('letter');
+    let showed = document.getElementsByClassName('show');
+    
+    if (phraseLetters.length === showed.length) {
+        overlay.className = 'win';
+        overlay.style.display = 'flex';
+        title.textContent = "Congratulations, You've won!!"
+        start.textContent = 'Replay';
+        resetGame = 1;
+    }
+}
+
+// Shows losing screen and gives value for a reset
+function lost() {
+    if (missed === 5) {
+        overlay.className = 'lose';
+        overlay.style.display = 'flex';
+        title.textContent = "Aww, better luck next time!!"
+        start.textContent = 'Replay';
+        resetGame = 1;
+    }
+}
+
+// Functions resets all fields
+function reset() {
+    missed = 0;
+    resetGame = 0; 
+    
+    // Resets lifes by changing back the image and class
+    function resetHearts() {
+        for (i = 0; i < lostLifes.length; i + 0) {
+            lostLifes[i].firstElementChild.setAttribute('src', 'images/liveHeart.png');
+            lostLifes[i].className = 'tries';
+        }  
+    }
+    // Removes phrase
+    function resetPhrase() {
+        phrase.firstElementChild.innerHTML = "";
+    }
+
+    // Removes the chosen class from all buttons
+    function resetKeyboard() {
+        const buttons = document.querySelectorAll('button');
+        for (i = 0; i < buttons.length; i++) {
+            buttons[i].className = "";
+        }
+    }
+    
+    resetPhrase();
+    resetHearts();
+    resetKeyboard();
+    addPhraseToDisplay(phrases);
+    overlay.style.display = 'none';
+}
