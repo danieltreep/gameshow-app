@@ -86,7 +86,7 @@ qwerty.addEventListener('click', (event) => {
     if (event.target.tagName === 'BUTTON' && event.target.className !== 'chosen') {
         event.target.className = 'chosen';
         const letterChecker = checkLetter(clickedButton);
-
+        
         // If function returns null, remove heart and increment missed
         if (letterChecker === null) {
             missed++;

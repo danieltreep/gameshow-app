@@ -55,6 +55,10 @@ button {
   transition: var(--transition);
 }
 
+button:hover {
+  cursor: pointer;
+}
+
 .main-container {
   display: flex;
   flex-direction: column;
@@ -96,6 +100,9 @@ button {
 .show {
   color: #000;
   background-color: #76CE82;
+  transition: .5s ease;
+  transform: rotate(360deg);
+  transition: 1s cubic-bezier(.66,-0.63,.2,1.56);
 }
 
 .tries {
@@ -124,6 +131,9 @@ button {
   background: #FFFFFF;
   border-radius: 5px;
   font-size: var(--font-size-medium);
+}
+.btn_reset {
+  cursor: pointer;
 }
 
 /* Overlay */
@@ -155,6 +165,7 @@ button {
 
 .win {
   background-color: var(--color-win);
+  z-index: 2;
 }
 
 .win a {
@@ -163,6 +174,7 @@ button {
 
 .lose {
   background-color: var(--color-lose);
+  z-index: 2;
 }
 
 .lose a {
